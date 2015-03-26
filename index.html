@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:ng="http://angularjs.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sudokuzator</title>
+    <!-- Stylesheet libraries -->
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
+    <link href="lib/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="lib/angular-csp.css" rel="stylesheet">
+    <link href="lib/sudokuzator.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Main container -->
+    <div class="container" ng-app="app" ng-controller="SudokuCtrl">
+      <div class="row">
+        <h1>Clever headline</h1>
+        <hr>
+        <p>Controls</p>
+        <form class="form form-inline">
+          <div class="form-group">
+            <label>Cell [ {{selected}} ], value </label>
+            <input type="number" class="form-control" ng-model="cellValue">
+            <a ng-click="updateValue()" class="btn btn-primary">Update</a>
+          </div>
+        </form>
+        <hr>
+        <p>The sudoku puzzle</p>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr class="info">
+              <th class="text-center">&nbsp;</th>
+              <th class="text-center" ng-repeat="y in [1, 2, 3, 4, 5, 6, 7, 8, 9]">{{y}}</th>
+            </tr>
+          </thead>
+          <tr ng-repeat="x in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+            <td class="text-center" class="success">{{$index + 1}}</td>
+            <td ng-repeat="y in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+              <sudoku-cell></sudoku-cell>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">
+          <span>&copy; 2015 <a href="mailto:pitecus@gmail.com">Leonardo Meirelles</a></span>
+          <span class="pull-right">Sudoku is awesome!</span>
+        </p>
+      </div>
+    </footer>
+
+    <!-- JavaScript libraries -->
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/ui-bootstrap-tpls.min.js"></script>
+    <script src="lib/ui-bootstrap.min.js"></script>
+    <script src="lib/sudokuzator.js"></script>
+  </body>
+</html>
