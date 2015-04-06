@@ -1,0 +1,30 @@
+{
+  "name": "sudoku",
+  "version": "0.0.1",
+  "homepage": "https://github.com/pitecus/sudoku-solver",
+  "authors": [
+    "Leonardo Meirelles <pitecus@gmail.com>"
+  ],
+  "description": "Sudoku solver",
+  "main": "dist/server.js",
+  "keywords": [
+    "sudoku",
+    "angular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.2.28",
+    "bootstrap": "3.3.4",
+    "angular-bootstrap": "0.12.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.28"
+  }
+}
