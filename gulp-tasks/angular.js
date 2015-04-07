@@ -2,15 +2,22 @@ var
   coffee,
   lint,
   threshold,
-  util;
+  util,
+  concat,
+  uglify,
+  sourcemaps;
 
 coffee = require('gulp-coffee');
 lint = require('gulp-coffeelint');
 threshold = require('gulp-coffeelint-threshold');
 util = require('gulp-util');
+concat = require('gulp-concat');
+uglify = require('gulp-uglify');
+sourcemaps = require('gulp-sourcemaps');
 
 module.exports = function (gulp, plugins, paths) {
   return function () {
+    // Copy coffee files.
     gulp.src(paths.src.app)
     .pipe(lint({
       'optFile': 'coffeelint.json'
@@ -23,6 +30,11 @@ module.exports = function (gulp, plugins, paths) {
     .pipe(coffee({
       'bare': true
     }).on('error', util.log))
-    .pipe(gulp.dest(paths.dest.app));
+    .pipe(concat('sudoku.js'))
+    .pipe(sourcemaps.init())
+      .pipe(uglify())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(paths.dest.dist + paths.dest.app));
+
   };
 };

@@ -60,6 +60,7 @@ angular.module 'app'
    * @param {null}   val [description]
   ###
   @setValue = (x, y, val) ->
+    console.log 'setValue', x, y, val
     cell = null
 
     # Process all the new values.
@@ -70,12 +71,13 @@ angular.module 'app'
     } ]
 
     while process.length > 0
+      console.log 'Process=[', JSON.stringify process
       cell = process.pop()
       # Set the value.
       board[cell.x][cell.y].values = cell.val
       board[cell.x][cell.y].evaluated = true
       # Update values.
-      Array::push.apply process, cleanupValues(cell.x, cell.y, cell.val)
+      Array.prototype.push.apply process, cleanupValues(cell.x, cell.y, cell.val)
 
     # Notify about change.
     notify()

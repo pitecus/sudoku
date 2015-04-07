@@ -15,52 +15,52 @@ paths = {
   },
   'bower': {
     'base': 'bower_components',
-    'css': {
-      'min': [
-        'bootstrap/dist/css/bootstrap.min.css',
-        'bootstrap/dist/css/bootstrap-theme.min.css',
-        'angular/angular-csp.css'
-      ],
-      'src': [
-        'bootstrap/dist/css/bootstrap-theme.css',
-        'bootstrap/dist/css/bootstrap-theme.css.map',
-        'bootstrap/dist/css/bootstrap.css',
-        'bootstrap/dist/css/bootstrap.css.map'
-      ]
-    },
-    'js': {
-      'min': [
-        'angular/angular.min.js',
-        'angular-bootstrap/ui-bootstrap.min.js',
-        'angular-bootstrap/ui-bootstrap-tpls.min.js'
-      ],
-      'src': [
-        'angular/angular.js',
-        'angular/angular.min.js.map',
-        'angular-bootstrap/ui-bootstrap.js',
-        'angular-bootstrap/ui-bootstrap-tpls.js'
-      ]
-    },
-    'extra': [
+    'files': [
+      // Stylesheets - angular.
+      'angular/angular-csp.css',
+      // Stylesheets - bootstrap.
+      'bootstrap/dist/css/bootstrap.css',
+      'bootstrap/dist/css/bootstrap.css.map',
+      'bootstrap/dist/css/bootstrap.min.css',
+      // Stylesheets - bootstrap angular.
+      'bootstrap/dist/css/bootstrap-theme.css',
+      'bootstrap/dist/css/bootstrap-theme.css.map',
+      'bootstrap/dist/css/bootstrap-theme.min.css',
+      // Javascript - angular.
+      'angular/angular.js',
+      'angular/angular.min.js',
+      'angular/angular.min.js.map',
+      // Javascript - bootstrap angular.
+      'angular-bootstrap/ui-bootstrap.js',
+      'angular-bootstrap/ui-bootstrap.min.js',
+      'angular-bootstrap/ui-bootstrap-tpls.js',
+      'angular-bootstrap/ui-bootstrap-tpls.min.js',
+      // Extras - Bootstrap.
       'bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
       'bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
       'bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
       'bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
       'bootstrap/dist/fonts/glyphicons-halflings-regular.woff2'
-
-    ]
+    ],
   },
   'src': {
     'app': [
-      './src/**/*.coffee'
+      './src/app/**/*.coffee'
     ],
-    'index': 'src/assets/index.html'
+    'index': 'src/assets/index.html',
+    'templates': {
+      'cwd': 'src/templates',
+      'files': [
+        '**/*.html'
+      ]
+    }
   },
   'dest': {
     'dist': 'dist/',
-    'app': 'static/sudoku/',
-    'static': 'static/',
-    'index': '/'
+    'app': 'web/app/',
+    'bower': 'web/static/',
+    'index': 'web/',
+    'templates': 'web/templates'
   }
 };
 
@@ -70,15 +70,20 @@ getTask = function(task) {
 }
 
 // Define tasks.
-gulp.task('angular-app', getTask('angular-app'));
+gulp.task('angular', getTask('angular'));
+gulp.task('bower', getTask('bower'));
 gulp.task('clean', getTask('clean'));
-gulp.task('index', getTask('index'));
+gulp.task('index', ['bower'], getTask('index'));
+gulp.task('templates', getTask('templates'));
 
 // Watch for changes.
 gulp.task('watch', function() {
-  gulp.watch(paths.src.app, ['angular-app']);
+  gulp.watch(paths.src.app, ['angular']);
   gulp.watch(paths.src.index, ['index']);
 });
 
 // Default.
-gulp.task('default', ['clean', 'angular-app', 'index', 'watch']);
+gulp.task('build', ['angular', 'bower', 'index', 'templates']);
+
+// Default.
+gulp.task('default', ['build', 'watch']);

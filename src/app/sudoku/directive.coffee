@@ -1,7 +1,7 @@
 angular.module 'app'
 .directive 'sudokuDirective', [
-  'boardService'
-  (boardService) ->
+  'SudokuService'
+  (SudokuService) ->
     directive = undefined
     # Setup directive.
     directive =
@@ -14,16 +14,15 @@ angular.module 'app'
           # Select one cell.
 
           $scope.select = ->
-            boardService.setSelected $scope.x, $scope.y
+            SudokuService.setSelected $scope.x, $scope.y
 
             # Return.
             return
 
           # Retrieve the values from the board service.
-
           updateCell = ->
             val = undefined
-            val = boardService.getValue($scope.x, $scope.y)
+            val = SudokuService.getValue($scope.x, $scope.y)
             if val.length == 1
               $scope.values = val[0]
             else
@@ -34,12 +33,13 @@ angular.module 'app'
 
           updateCell()
           # Listen for events.
-          boardService.addListener updateCell
+          SudokuService.addListener updateCell
 
           # Return.
           return
       ]
-      'templateUrl': 'cell.html'
+      'templateUrl': 'templates/cell.html'
     # Return.
     directive
 ]
+console.log 'yarr'
