@@ -51,6 +51,7 @@ angular.module 'app'
   ###
   @getValue = (x, y) ->
     # Return the value.
+    # console.log x, y, board[x][y].values
     board[x][y].values
 
   ###*
@@ -60,7 +61,6 @@ angular.module 'app'
    * @param {null}   val [description]
   ###
   @setValue = (x, y, val) ->
-    console.log 'setValue', x, y, val
     cell = null
 
     # Process all the new values.
@@ -71,11 +71,13 @@ angular.module 'app'
     } ]
 
     while process.length > 0
-      console.log 'Process=[', JSON.stringify process
+      # Remove the cell.
       cell = process.pop()
+
       # Set the value.
-      board[cell.x][cell.y].values = cell.val
+      board[cell.x][cell.y].values = [cell.val]
       board[cell.x][cell.y].evaluated = true
+
       # Update values.
       Array.prototype.push.apply process, cleanupValues(cell.x, cell.y, cell.val)
 
@@ -138,7 +140,7 @@ angular.module 'app'
     offy = Math.floor(y / 3) * 3
     i = 0
     while i < 3
-            j = 0
+      j = 0
       while j < 3
         if i + offx != x and j + offy != y
           if board[i + offx][j + offy].evaluated == false

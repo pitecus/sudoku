@@ -1,1 +1,37 @@
-<div ng-click="select()" class="text-right">{{values}}<div>
+<!-- Print the value -->
+<div class="text-right" ng-if="values.length == 1">
+  <big>{{values[0]}}</big>
+</div>
+<!-- Table with possible values-->
+<small ng-click="select()">
+  <small>
+    <table class="table" ng-if="values.length > 4">
+      <tr>
+        <td class="text-muted">{{values[0]}}</td>
+        <td class="text-muted">{{values[1]}}</td>
+        <td class="text-muted">{{values[2]}}</td>
+      </tr>
+      <tr>
+        <td class="text-muted">{{values[3]}}</td>
+        <td class="text-muted">{{values[4]}}</td>
+        <td class="text-muted">{{values[5]}}</td>
+      </tr>
+      <tr ng-if="values.length > 6">
+        <td class="text-muted">{{values[6]}}</td>
+        <td class="text-muted">{{values[7]}}</td>
+        <td class="text-muted">{{values[8]}}</td>
+      </tr>
+    </table>
+  </small>
+  <table class="table table-condensed" ng-if="values.length <= 4 && values.length >= 2">
+    <tr>
+      <td class="text-muted">{{values[0]}}</td>
+      <td class="text-muted">{{values[1]}}</td>
+    </tr>
+    <tr>
+      <td class="text-muted">{{values[2]}}</td>
+      <td class="text-muted">{{values[3]}}</td>
+    </tr>
+  </table>
+</small>
+

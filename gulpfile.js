@@ -80,6 +80,7 @@ gulp.task('templates', getTask('templates'));
 gulp.task('watch', function() {
   gulp.watch(paths.src.app, ['angular']);
   gulp.watch(paths.src.index, ['index']);
+  gulp.watch(paths.src.templates.cwd + paths.src.templates.files, ['templates']);
 });
 
 // Default.

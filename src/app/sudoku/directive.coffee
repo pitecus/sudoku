@@ -21,12 +21,7 @@ angular.module 'app'
 
           # Retrieve the values from the board service.
           updateCell = ->
-            val = undefined
-            val = SudokuService.getValue($scope.x, $scope.y)
-            if val.length == 1
-              $scope.values = val[0]
-            else
-              $scope.values = val
+            $scope.values = SudokuService.getValue($scope.x, $scope.y)
 
             # Return.
             return
