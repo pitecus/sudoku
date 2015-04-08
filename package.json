@@ -1,0 +1,38 @@
+{
+  "name": "sudoku",
+  "version": "0.0.1",
+  "description": "Sudoku solver",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pitecus/sudoku-solver.git"
+  },
+  "keywords": [
+    "sudoku",
+    "angular"
+  ],
+  "author": "Leonardo Meirelles <pitecus@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pitecus/sudoku-solver/issues"
+  },
+  "homepage": "https://github.com/pitecus/sudoku-solver",
+  "devDependencies": {
+    "gulp": "3.8.11",
+    "gulp-coffee": "2.3.1",
+    "gulp-coffeelint": "0.4.0",
+    "gulp-load-plugins": "0.9.0",
+    "gulp-util": "3.0.4",
+    "del": "1.1.1",
+    "gulp-coffeelint-threshold": "1.0.0",
+    "gulp-inject": "1.2.0",
+    "main-bower-files": "2.6.2",
+    "gulp-minify-html": "1.0.2",
+    "gulp-concat": "2.5.2",
+    "gulp-uglify": "1.1.0",
+    "gulp-sourcemaps": "^1.5.1"
+  }
+}

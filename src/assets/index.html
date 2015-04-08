@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sudokuzator</title>
     <!-- Stylesheet libraries -->
-    <link href="lib/bootstrap.min.css" rel="stylesheet">
-    <link href="lib/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="lib/angular-csp.css" rel="stylesheet">
-    <link href="lib/sudokuzator.css" rel="stylesheet">
+    <link href="static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="static/angular/angular-csp.css" rel="stylesheet">
+    <!--link href="lib/sudokuzator.css" rel="stylesheet" -->
   </head>
   <body>
     <!-- Main container -->
@@ -37,7 +37,7 @@
           <tr ng-repeat="x in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
             <td class="text-center" class="success">{{$index + 1}}</td>
             <td ng-repeat="y in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-              <sudoku-cell></sudoku-cell>
+              <sudoku-directive></sudoku-directive>
             </td>
           </tr>
         </table>
@@ -55,9 +55,9 @@
     </footer>
 
     <!-- JavaScript libraries -->
-    <script src="lib/angular.min.js"></script>
-    <script src="lib/ui-bootstrap-tpls.min.js"></script>
-    <script src="lib/ui-bootstrap.min.js"></script>
-    <script src="lib/sudokuzator.js"></script>
+    <script src="static/angular/angular.min.js"></script>
+    <script src="static/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="static/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="app/sudoku.js"></script>
   </body>
 </html>
