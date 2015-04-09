@@ -2,17 +2,15 @@ var
   paths,
   gulp,
   plugins,
-  getTask;
+  getTask,
+  livereload;
 
 gulp = require('gulp');
 plugins = require('gulp-load-plugins')();
+livereload = require('gulp-livereload');
 
 // Define the paths.
 paths = {
-  'injectIndex': './index.html',
-  'vendor': {
-    'app': './bower_components/foundation-apps/scss/**/*.scss'
-  },
   'bower': {
     'base': 'bower_components',
     'files': [
@@ -53,13 +51,15 @@ paths = {
       'files': [
         '**/*.html'
       ]
-    }
+    },
+    'less': 'src/styles/**/*.less'
   },
   'dest': {
     'dist': 'dist/',
     'app': 'web/app/',
     'bower': 'web/static/',
     'index': 'web/',
+    'less': 'web/',
     'templates': 'web/templates'
   }
 };
@@ -74,17 +74,20 @@ gulp.task('angular', getTask('angular'));
 gulp.task('bower', getTask('bower'));
 gulp.task('clean', getTask('clean'));
 gulp.task('index', ['bower'], getTask('index'));
+gulp.task('styles', getTask('styles'));
 gulp.task('templates', getTask('templates'));
 
 // Watch for changes.
 gulp.task('watch', function() {
+  livereload.listen();
   gulp.watch(paths.src.app, ['angular']);
   gulp.watch(paths.src.index, ['index']);
+  gulp.watch(paths.src.less, ['styles']);
   gulp.watch(paths.src.templates.cwd + paths.src.templates.files, ['templates']);
 });
 
 // Default.
-gulp.task('build', ['angular', 'bower', 'index', 'templates']);
+gulp.task('build', ['angular', 'bower', 'index', 'styles', 'templates']);
 
 // Default.
 gulp.task('default', ['build', 'watch']);

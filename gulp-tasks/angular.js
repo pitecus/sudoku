@@ -5,7 +5,8 @@ var
   util,
   concat,
   uglify,
-  sourcemaps;
+  sourcemaps,
+  livereload;
 
 coffee = require('gulp-coffee');
 lint = require('gulp-coffeelint');
@@ -14,6 +15,7 @@ util = require('gulp-util');
 concat = require('gulp-concat');
 uglify = require('gulp-uglify');
 sourcemaps = require('gulp-sourcemaps');
+livereload = require('gulp-livereload');
 
 module.exports = function (gulp, plugins, paths) {
   return function () {
@@ -34,7 +36,7 @@ module.exports = function (gulp, plugins, paths) {
     .pipe(sourcemaps.init())
       .pipe(uglify())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(paths.dest.dist + paths.dest.app));
-
+    .pipe(gulp.dest(paths.dest.dist + paths.dest.app))
+    .pipe(livereload());;
   };
 };
