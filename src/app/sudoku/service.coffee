@@ -91,7 +91,6 @@ angular.module 'app'
       # Look for unique values.
       if process.length == 0
         Array.prototype.push.apply process, _uniqueVals()
-        console.log JSON.stringify process
 
     # Notify about change.
     notify()
@@ -171,6 +170,18 @@ angular.module 'app'
     # Return the new discovered fields.
     reprocess
 
+  _uniqueValsToReprocess = (vals) ->
+    reprocess = []
+    for k, v of vals
+      if v.length == 1
+        setDiscovered v[0].x, v[0].y
+        reprocess.push
+          'x': v[0].x
+          'y': v[0].y
+          'val': parseInt k, 10
+    # Return.
+    reprocess
+
   ###*
    * Loop through each row, col and block looking for lonely values to prey.
    * @return {[type]} [description]
@@ -187,6 +198,12 @@ angular.module 'app'
       # Internal loop.
       rows = {}
       cols = {}
+      block = {}
+
+      # Find the offsets.
+      offy = Math.floor(i / 3) * 3
+      offx = (i % 3) * 3
+
       while j < 9
         # Rows.
         if board[i][j].evaluated == false
@@ -198,7 +215,7 @@ angular.module 'app'
               rows[board[i][j].values[k]] = [board[i][j]]
             k -= 1
 
-        # Cols.
+        # Columns.
         if board[j][i].evaluated == false
           k = board[j][i].values.length - 1
           while k >= 0
@@ -208,29 +225,28 @@ angular.module 'app'
              cols[board[j][i].values[k]] = [board[j][i]]
             k -= 1
 
+        # Block.
+        x = Math.floor(j / 3) + offx
+        y = (j % 3) + offy
+        if board[x][y].evaluated == false
+          k = board[x][y].values.length - 1
+          while k >= 0
+            if block[board[x][y].values[k]]?
+              block[board[x][y].values[k]].push board[x][y]
+            else
+             block[board[x][y].values[k]] = [board[x][y]]
+            k -= 1
+
         # Update index.
         j += 1
 
       # All the single keys.
-      for k, v of rows
-        if v.length == 1
-          setDiscovered v[0].x, v[0].y
-          reprocess.push
-            'x': v[0].x
-            'y': v[0].y
-            'val': parseInt k, 10
-      for k, v of cols
-        if v.length == 1
-          setDiscovered v[0].x, v[0].y
-          reprocess.push
-            'x': v[0].x
-            'y': v[0].y
-            'val': parseInt k, 10
+      Array.prototype.push.apply reprocess, _uniqueValsToReprocess rows
+      Array.prototype.push.apply reprocess, _uniqueValsToReprocess cols
+      Array.prototype.push.apply reprocess, _uniqueValsToReprocess block
 
       # Update index.
       i += 1
-
-    console.log 'reprocess=', JSON.stringify reprocess
 
     # Return.
     reprocess
