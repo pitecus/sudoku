@@ -15,30 +15,39 @@
     <!-- Main container -->
     <div class="container" ng-app="app" ng-controller="SudokuCtrl">
       <div class="row">
-        <form class="form form-inline">
-          <div class="form-group">
-            <label>Cell [ {{selected}} ], value </label>
-            <input type="number" class="form-control" ng-model="cellValue">
-            <a ng-click="updateValue()" class="btn btn-primary">Update</a>
-          </div>
-        </form>
-        <hr>
-        <table class="sudoku-board">
-          <thead>
-            <tr class="info">
-              <th class="text-center">&nbsp;</th>
-              <th class="text-center" ng-repeat="y in [1, 2, 3, 4, 5, 6, 7, 8, 9]">{{y}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="x in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-              <td class="text-center" class="success">{{$index + 1}}</td>
-              <td ng-repeat="y in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
-                <sudoku-directive></sudoku-directive>
+        <!-- Sudoku -->
+        <div class="col-lg-6">
+          <!-- Sudoku board -->
+          <table class="sudoku-board">
+            <thead>
+              <tr class="info">
+                <th class="text-center">&nbsp;</th>
+                <th class="text-center" ng-repeat="y in [1, 2, 3, 4, 5, 6, 7, 8, 9]">{{y}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="x in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                <td class="text-center" class="success">{{$index + 1}}</td>
+                <td ng-repeat="y in [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                  <sudoku-cell></sudoku-cell>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Buttons -->
+          <table class="table">
+            <tr>
+              <td ng-repeat="y in [1, 2, 3, 4, 5, 6, 7, 8, 9]">
+                <a class="btn btn-default" href="#" role="button" ng-click="setCellValue(y)">{{y}}</a>
               </td>
             </tr>
-          </tbody>
-        </table>
+          </table>
+        </div>
+        <div class="col-lg-6">
+          <h2>Solution cells</h2>
+          <textarea ng-model="input" class="form-control" rows="10"></textarea>
+          <a href="#" ng-click="inputSolutions()" class="btn btn-success" role="button">Run</a>
+        </div>
       </div>
     </div>
 
