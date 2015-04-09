@@ -4,25 +4,29 @@ angular.module 'app'
   '$scope',
   'SudokuService',
   ($scope, SudokuService) ->
-    # Selected cell.
-    $scope.cellValue = null
-    $scope.selected = null
-
     # Add a listener for board changes.
+    $scope.input = ''
     SudokuService.addListener ->
-      cell = SudokuService.getSelected()
-      $scope.selected = SudokuService.getValue([cell.x], [cell.y])
+      # Update the results.
+      results = SudokuService.getResults()
+      arr = []
+      for i in results
+        arr.push i.join ', '
+      $scope.input = arr.join '\n'
 
       # Return.
       true
 
-    # Update selected.
-    $scope.updateValue = ->
+    $scope.inputSolutions = ->
+      arr = $scope.input.split '\n'
+      for row in arr
+        cell = row.split ', '
+        SudokuService.setValue cell[0], cell[1], cell[2]
+
+    $scope.setCellValue = (val) ->
+      # Updated the selected cell.
       cell = SudokuService.getSelected()
-      # Update value.
-      val = parseInt $scope.cellValue, 10
       SudokuService.setValue cell.x, cell.y, val
-      $scope.cellValue = null
 
       # Return.
       true
