@@ -68,8 +68,6 @@ angular.module 'app'
    * @param {null}   val [description]
   ###
   @setValue = (x, y, val) ->
-    cell = null
-
     # Process all the new values.
     process = [ {
       'x': x
@@ -91,6 +89,21 @@ angular.module 'app'
       # Look for unique values.
       if process.length == 0
         Array.prototype.push.apply process, _uniqueVals()
+
+    # Notify about change.
+    notify()
+
+    # Return.
+    return
+
+  ###*
+   * Set the value in the board.
+   * @param {Number} x   Row location.
+   * @param {Number} y   Column location.
+   * @param {null}   val [description]
+  ###
+  @setValues = (x, y, vals) ->
+    board[x][y].values = vals
 
     # Notify about change.
     notify()

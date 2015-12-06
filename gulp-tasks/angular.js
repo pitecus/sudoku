@@ -33,9 +33,9 @@ module.exports = function (gulp, plugins, paths) {
       'bare': true
     }).on('error', util.log))
     .pipe(concat('sudoku.js'))
-    .pipe(sourcemaps.init())
-      .pipe(uglify())
-    .pipe(sourcemaps.write('.'))
+    // .pipe(sourcemaps.init())
+    //   .pipe(uglify())
+    // .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(paths.dest.dist + paths.dest.app))
     .pipe(livereload());;
   };

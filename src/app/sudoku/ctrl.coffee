@@ -4,9 +4,17 @@ angular.module 'app'
   '$scope',
   'SudokuService',
   ($scope, SudokuService) ->
+    _selected = null
     # Add a listener for board changes.
     $scope.input = ''
+    $scope.values = ''
     SudokuService.addListener ->
+      # Update the selection.
+      _a = SudokuService.getSelected()
+      if _a?
+        _a = SudokuService.getValue _a.x, _a.y
+        $scope.values = _a.join ', '
+
       # Update the results.
       results = SudokuService.getResults()
       arr = []
@@ -15,7 +23,18 @@ angular.module 'app'
       $scope.input = arr.join '\n'
 
       # Return.
-      true
+      return
+
+    $scope.setValues = ->
+      _a = SudokuService.getSelected()
+      _b = $scope.values.split ', '
+      .map (a) ->
+        return parseInt a, 10
+      console.log _b
+      SudokuService.setValues _a.x, _a.y, _b
+      $scope.values = ''
+      # Return.
+      return
 
     $scope.inputSolutions = ->
       arr = $scope.input.split '\n'
@@ -29,7 +48,8 @@ angular.module 'app'
       SudokuService.setValue cell.x, cell.y, val
 
       # Return.
-      true
+      return
+
     # Return.
-    true
+    return
 ]
