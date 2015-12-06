@@ -42,7 +42,13 @@
               </td>
             </tr>
           </table>
+          <!-- Form to update values -->
+          <form>
+            <input ng-model="values" >
+            <a href="#" role="button" class="btn btn-primary" ng-click="setValues()">Update</a>
+          </form>
         </div>
+        <!-- Solutions-->
         <div class="col-lg-6">
           <h2>Solution cells</h2>
           <textarea ng-model="input" class="form-control" rows="10"></textarea>

@@ -6,6 +6,37 @@ angular.module 'app'
   # The board values.
   _board = null
 
+
+  #
+  # Initialize the board.
+  #
+
+  ###*
+   * Initialize the board.
+   *
+   * @param  {Array}     Array of initial values.
+   * @return {undefined}
+  ###
+  start = (vals) ->
+    _board = {}
+
+    for i in [1..9]
+      _board[i] = []
+      for j in [1..9]
+        _board[i][j] =
+          'values': [1, 2, 3, 4, 5, 6, 7, 8, 9]
+          'discovered': false
+          'x': i
+          'y': j
+
+    # Return.
+    return
+
+
+  #
+  # Selection API.
+  #
+
   # Selected cells.
   _select = {}
 
@@ -32,46 +63,21 @@ angular.module 'app'
     return
 
   ###*
-   * Initialize the board.
-   *
-   * @param  {Array}     Array of initial values.
-   * @return {undefined}
-  ###
-  start: (vals) ->
-    _board = {}
-
-    for i in [1..9]
-      _board[i] = []
-      for j in [1..9]
-        _board[i][j] =
-          'values': [1, 2, 3, 4, 5, 6, 7, 8, 9]
-          'discovered': false
-          'x': i
-          'y': j
-
-    # Return.
-    return
-
-
-  #
-  # Selection API.
-  #
-
-  ###*
    * Reset the selection to none.
    *
    * @return {undefined}
   ###
-  deselect: _deselect
+  deselect =  ->
+    _deselect()
 
   ###*
    * Mark the cells as selected.
-   * 
+   *
    * @param  {Array}     Array of cells to be set as selected.
    *
    * @return {undefined}
   ###
-  selectCells: (cells) ->
+  selectCells = (cells) ->
     _deselect()
     for i in cells
       _select[_selectKey i.x, i.y] = true
@@ -80,15 +86,14 @@ angular.module 'app'
     return
 
 
-
   ###*
    * Select cells that contains this values.
-   * 
+   *
    * @param  {Array}  If a cell contains this value, it should be selected.
    *
    * @return {undefined}
   ###
-  selectValues: (vals) ->
+  selectValues = (vals) ->
     _deselect()
     for i in [1..9]
       for j in [1..9]
@@ -100,13 +105,13 @@ angular.module 'app'
 
   ###*
    * Check if the cell is selected.
-   * 
+   *
    * @param  {Number}  Row location.
    * @param  {Number}  Columns location.
    *
    * @return {Boolean} True if is selected, false otherwise.
   ###
-  isSelected: (x, y) ->
+  isSelected = (x, y) ->
     # Return.
     _select[_selectKey x, y]?
 
@@ -123,7 +128,7 @@ angular.module 'app'
    *
    * @return {Array}  Array of values.
   ###
-  getValues: (x, y) ->
+  getValues = (x, y) ->
     # Return the values.
     _board[x][y].values
 
@@ -136,9 +141,78 @@ angular.module 'app'
    *
    * @return {undefined}
   ###
-  setValues: (x, y, vals) ->
+  setValues = (x, y, vals) ->
+    oldVals = _board[x][y].values
     _board[x][y].values = vals
+
+    # Notify the listeners.
+    _notify 'change', [
+        'x': x
+        'y': y
+        'values': oldVals
+      ,
+        'x': x
+        'y': y
+        'values': vals
+    ]
 
     # Return.
     return
+
+
+  #
+  # Observer pattern.
+  #
+
+  # Events notification.
+  _events = null
+  _resetListeners = ->
+    _events = {
+      'all': []
+    }
+  _resetListeners()
+
+  _notify = (event, data) ->
+    for i in ['all', event]
+      # Notify the listeners.
+      cb i, data for cb in _events[i] if _events[i]?
+
+  ###*
+   * Add a listener for an event.
+   * Events are: 'change', 'selected', 'deselected'
+   *
+   * @param {String}   event Event name.
+   * @param {Function} cb    Callback when the event happens.
+   *
+   * @returns {undefined} Nothing is returned.
+  ###
+  addListener = (event, cb) ->
+    # Create an array of events.
+    if !_events[event]?
+      _events[event] = []
+
+    # Add listener to the queue.
+    _events[event].push cb
+
+    # Return.
+    return
+
+  removeListeners = ->
+    _resetListeners()
+
+
+  # Return.
+  'start': start
+  # Selection API.
+  'deselect': deselect
+  'isSelected': isSelected
+  'selectCells': selectCells
+  'selectValues': selectValues
+  # Values API.
+  'getValues': getValues
+  'setValues': setValues
+  # Observer pattern.
+  'addListener': addListener
+  'removeListeners': removeListeners
+
 ]
